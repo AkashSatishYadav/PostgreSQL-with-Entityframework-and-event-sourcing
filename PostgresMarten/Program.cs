@@ -15,6 +15,11 @@ builder.Services.AddDbContext<PostgresDbContext>(options =>
     options.UseNpgsql(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 builder.Services.AddMarten(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "UsersApi_";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
